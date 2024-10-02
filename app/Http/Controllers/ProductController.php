@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Dto\ProductStoreDTO;
 use App\Dto\ProductUpdateDTO;
-use App\Enums\RoleEnum;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\UserResource;
 use App\Models\Product;
-use App\Models\User;
 use App\Services\ProductService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -23,35 +20,34 @@ use Inertia\Response;
 
 class ProductController extends Controller
 {
-  public function __construct(
-    protected ProductService $productService
-) {
-}
+    public function __construct(
+        protected ProductService $productService
+    ) {}
 
+    public function index()
+    {
+        $params = Request::only('q');
 
-    function index()  {
-      $params = Request::only('q');
-
-      return Inertia::render('Product/Index', [
-          'q' => $params['q'] ?? '',
-          'products' => ProductResource::collection(
-              Product::when(Auth::user()->role->isVendor(), function(Builder $query){
-                $query->where('user_id', Auth::user()->id);
-              })
-                ->orderByDesc('id')
-                  ->when($params['q'] ?? false, function (Builder $query, $q) {
-                      $query->where('name', 'like', '%'.$q.'%');
-                  })
-                  ->paginate(5)
-                  ->appends(Request::all())
-          ),
-      ]);
+        return Inertia::render('Product/Index', [
+            'q' => $params['q'] ?? '',
+            'products' => ProductResource::collection(
+                Product::when(Auth::user()->role->isVendor(), function (Builder $query) {
+                    $query->where('user_id', Auth::user()->id);
+                })
+                    ->orderByDesc('id')
+                    ->when($params['q'] ?? false, function (Builder $query, $q) {
+                        $query->where('name', 'like', '%'.$q.'%');
+                    })
+                    ->paginate(5)
+                    ->appends(Request::all())
+            ),
+        ]);
     }
 
     public function create(): Response
     {
-        if (!Auth::user()->role->isVendor()) {
-          return abort(403, 'Forbidden.');
+        if (! Auth::user()->role->isVendor()) {
+            return abort(403, 'Forbidden.');
         }
 
         return Inertia::render('Product/Create', []);
@@ -59,8 +55,8 @@ class ProductController extends Controller
 
     public function store(ProductStoreRequest $request): RedirectResponse
     {
-        if (!Auth::user()->role->isVendor()) {
-          return abort(403, 'Forbidden.');
+        if (! Auth::user()->role->isVendor()) {
+            return abort(403, 'Forbidden.');
         }
 
         $flashMessage = [
@@ -83,7 +79,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         if ($product->user_id !== Auth::user()->id) {
-          return abort(403, 'Not Found.');
+            return abort(403, 'Not Found.');
         }
 
         return Inertia::render('Product/Edit', [
@@ -93,9 +89,9 @@ class ProductController extends Controller
 
     public function update(Product $product, ProductUpdateRequest $request): RedirectResponse
     {
-      if ($product->user_id !== Auth::user()->id) {
-        return abort(403, 'Not Found.');
-      }
+        if ($product->user_id !== Auth::user()->id) {
+            return abort(403, 'Not Found.');
+        }
 
         $flashMessage = [
             'status' => 'success',
@@ -117,7 +113,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         if ($product->user_id !== Auth::user()->id) {
-          return abort(403, 'Not Found.');
+            return abort(403, 'Not Found.');
         }
 
         $flashMessage = [

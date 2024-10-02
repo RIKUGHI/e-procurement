@@ -4,10 +4,7 @@ namespace App\Services;
 
 use App\Dto\ProductStoreDTO;
 use App\Dto\ProductUpdateDTO;
-use App\Dto\WorkUnitStoreDTO;
-use App\Dto\WorkUnitUpdateDTO;
 use App\Models\Product;
-use App\Models\WorkUnit;
 use Error;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -18,14 +15,14 @@ class ProductService
     {
         $user = Auth::user();
 
-        if (!$user->role->isVendor()) {
-          throw new Error('Pengguna bukan vendor');
+        if (! $user->role->isVendor()) {
+            throw new Error('Pengguna bukan vendor');
         }
 
         Product::create([
             'name' => Str::trim($dto->name),
             'price' => $dto->price,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
     }
 
@@ -34,7 +31,7 @@ class ProductService
         $workUnit->update([
             'name' => Str::trim($dto->name),
             'price' => $dto->price,
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
         ]);
     }
 
@@ -42,5 +39,4 @@ class ProductService
     {
         $product->delete();
     }
-
 }

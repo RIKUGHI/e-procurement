@@ -16,12 +16,12 @@ class AdminOrVendorOnlyMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-          $user = Auth::user();
+        $user = Auth::user();
 
-          if ($user->role->isAdmin() || ($user->role->isVendor() && $user->approved_at)) {
+        if ($user->role->isAdmin() || ($user->role->isVendor() && $user->approved_at)) {
             return $next($request);
-          }
+        }
 
-          return abort(403, 'You do not have permission to access the product section');
+        return abort(403, 'You do not have permission to access the product section');
     }
 }

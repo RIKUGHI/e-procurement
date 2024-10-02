@@ -75,8 +75,9 @@ export default function Welcome({
                                     {d.name}
                                 </h2>
                                 <p className="text-gray-700 text-base">
-                                    This is a brief description of the product.
-                                    It highlights its features and benefits.
+                                    {d.relation.user?.name}: This is a brief
+                                    description of the product. It highlights
+                                    its features and benefits.
                                 </p>
                                 <div className="flex items-center justify-between mt-4">
                                     <span className="text-xl font-bold text-blue-600">

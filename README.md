@@ -1,7 +1,17 @@
+## Cloning This Repository Locally - Docker
+- Run `git clone this repo`.
+- Run `docker compose up --build`
+- Go to link localhost:8080
+- Login as admin
+- ```bash
+    email = admin@example.com
+    password = password
+  ```
+
 ## Requirement
 
 - PHP 8.2+
-- Node 18+
+- Node 16+/18+
 
 ## Cloning This Repository Locally
 

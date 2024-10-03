@@ -1,3 +1,4 @@
+import { Empty } from "@/Components/atoms";
 import { Pagination, SimpleFormSearch } from "@/Components/molecules";
 import { IPaginatedData, PageProps, Product } from "@/types";
 import { Head, Link, router } from "@inertiajs/react";
@@ -59,38 +60,42 @@ export default function Welcome({
                         onSearch={handleSearch}
                     />
                 </div>
-                <div className="bb grid grid-cols-4 gap-5">
-                    {data.map((d, i) => (
-                        <div
-                            key={i}
-                            className="max-w-sm rounded overflow-hidden shadow-lg bg-white"
-                        >
-                            <img
-                                className="w-full h-48 object-cover"
-                                src="https://via.placeholder.com/300"
-                                alt="Product Image"
-                            />
-                            <div className="p-5">
-                                <h2 className="font-bold text-xl mb-2">
-                                    {d.name}
-                                </h2>
-                                <p className="text-gray-700 text-base">
-                                    {d.relation.user?.name}: This is a brief
-                                    description of the product. It highlights
-                                    its features and benefits.
-                                </p>
-                                <div className="flex items-center justify-between mt-4">
-                                    <span className="text-xl font-bold text-blue-600">
-                                        {d.price}
-                                    </span>
-                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        Add to Cart
-                                    </button>
+                {data.length === 0 ? (
+                    <Empty label="produk" />
+                ) : (
+                    <div className="grid grid-cols-4 gap-5">
+                        {data.map((d, i) => (
+                            <div
+                                key={i}
+                                className="max-w-sm rounded overflow-hidden shadow-lg bg-white"
+                            >
+                                <img
+                                    className="w-full h-48 object-cover"
+                                    src="https://via.placeholder.com/300"
+                                    alt="Product Image"
+                                />
+                                <div className="p-5">
+                                    <h2 className="font-bold text-xl mb-2">
+                                        {d.name}
+                                    </h2>
+                                    <p className="text-gray-700 text-base">
+                                        {d.relation.user?.name}: This is a brief
+                                        description of the product. It
+                                        highlights its features and benefits.
+                                    </p>
+                                    <div className="flex items-center justify-between mt-4">
+                                        <span className="text-xl font-bold text-blue-600">
+                                            {d.price}
+                                        </span>
+                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                            Add to Cart
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
                 <Pagination meta={meta} />
             </main>
         </>

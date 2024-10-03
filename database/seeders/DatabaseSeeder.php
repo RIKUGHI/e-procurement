@@ -24,20 +24,20 @@ class DatabaseSeeder extends Seeder
             'role' => RoleEnum::ADMIN
         ]);
 
-        User::factory()->create([
-            'name' => 'Vendor 1',
-            'email' => 'vendor1@example.com',
-            'approved_at' => Carbon::now(),
-            'role' => RoleEnum::VENDOR
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Vendor 1',
+        //     'email' => 'vendor1@example.com',
+        //     'approved_at' => Carbon::now(),
+        //     'role' => RoleEnum::VENDOR
+        // ]);
 
-        User::factory()->create([
-            'name' => 'Vendor 2',
-            'email' => 'vendor2@example.com',
-            'approved_at' => Carbon::now(),
-            'role' => RoleEnum::VENDOR
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Vendor 2',
+        //     'email' => 'vendor2@example.com',
+        //     'approved_at' => Carbon::now(),
+        //     'role' => RoleEnum::VENDOR
+        // ]);
 
-        Product::factory(5)->create();
+        // Product::factory(5)->create();
     }
 }
